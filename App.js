@@ -1,20 +1,22 @@
-import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View } from 'react-native';
+// appCampeonato/App.js
+import React from 'react';
+import { View } from 'react-native';
+import { NavigationContainer } from '@react-navigation/native';
+import StackRoutes from './src/routes/stack.routes';
+
+const Header = () => (
+  <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', padding: 10, paddingTop:35, backgroundColor: '#007400' }}>
+    {/* Ícone de hambúrguer, logo e ícone de pesquisa */}
+  </View>
+);
 
 export default function App() {
   return (
-    <View style={styles.container}>
-      <Text>Open up App.js to start working on your app!</Text>
-      <StatusBar style="auto" />
-    </View>
+    <NavigationContainer>
+      <View style={{ flex: 1 }}>
+        <Header />
+        <StackRoutes />
+      </View>
+    </NavigationContainer>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});
