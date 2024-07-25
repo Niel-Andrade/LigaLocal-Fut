@@ -1,15 +1,9 @@
 import React, { useEffect, useState } from "react";
-import {
-  View,
-  StyleSheet,
-  ActivityIndicator,
-  Text,
-  TouchableOpacity,
-  Linking,
-} from "react-native";
+import { View, StyleSheet, ActivityIndicator, Text, TouchableOpacity, Linking } from "react-native";
 import MapView, { Marker, Polyline } from "react-native-maps";
 import * as Location from "expo-location";
 import Header from "../components/Header";
+import Icon from "react-native-vector-icons/MaterialIcons";
 
 const StadiumLocation = ({ navigation }) => {
   const [location, setLocation] = useState(null);
@@ -26,19 +20,16 @@ const StadiumLocation = ({ navigation }) => {
       try {
         let { status } = await Location.requestForegroundPermissionsAsync();
         if (status !== "granted") {
-          setErrorMsg("Permission to access location was denied");
+          setErrorMsg("A permissão para acessar o local foi negada");
           setLoading(false);
           return;
         }
 
         let { coords } = await Location.getCurrentPositionAsync();
-        setLocation({
-          latitude: coords.latitude,
-          longitude: coords.longitude,
-        });
-        setLoading(false);
+        setLocation(coords);
       } catch (error) {
         setErrorMsg(error.message);
+      } finally {
         setLoading(false);
       }
     };
@@ -47,25 +38,15 @@ const StadiumLocation = ({ navigation }) => {
   }, []);
 
   if (loading) {
-    return <ActivityIndicator size="large" color="#0000ff" />;
+    return <ActivityIndicator size="large" color="#007400" />;
   }
 
-  const getMapRegion = (loc1, loc2) => {
-    const latitudes = [loc1.latitude, loc2.latitude];
-    const longitudes = [loc1.longitude, loc2.longitude];
-
-    const minLat = Math.min(...latitudes);
-    const maxLat = Math.max(...latitudes);
-    const minLng = Math.min(...longitudes);
-    const maxLng = Math.max(...longitudes);
-
-    return {
-      latitude: (minLat + maxLat) / 2,
-      longitude: (minLng + maxLng) / 2,
-      latitudeDelta: (maxLat - minLat) * 1.5,
-      longitudeDelta: (maxLng - minLng) * 1.5,
-    };
-  };
+  const getMapRegion = (loc1, loc2) => ({
+    latitude: (loc1.latitude + loc2.latitude) / 2,
+    longitude: (loc1.longitude + loc2.longitude) / 2,
+    latitudeDelta: Math.abs(loc1.latitude - loc2.latitude) * 1.5,
+    longitudeDelta: Math.abs(loc1.longitude - loc2.longitude) * 1.5,
+  });
 
   const mapRegion = location
     ? getMapRegion(location, stadiumLocation)
@@ -87,18 +68,25 @@ const StadiumLocation = ({ navigation }) => {
       <View style={styles.infoContainer}>
         <Text style={styles.title}>Localização do Estádio</Text>
         <Text style={styles.description}>
-          O estádio está localizado na cidade de Santo Ínacio do Píaui. Você
-          pode visualizar o estádio e o seu caminho até lá.
+          O estádio está localizado na cidade de Santo Ínacio do Píaui. Você pode visualizar o estádio e o seu caminho até lá.
         </Text>
       </View>
       <View style={styles.viewMap}>
         <MapView style={styles.map} initialRegion={mapRegion}>
-          {location && <Marker coordinate={location} title="Sua Localização" />}
-          <Marker coordinate={stadiumLocation} title="Estádio" Pin="red" />
+          {location && (
+            <Marker coordinate={location} title="Sua Localização">
+              <View style={styles.customMarker} />
+            </Marker>
+          )}
+          <Marker coordinate={stadiumLocation} title="Estádio">
+            <View>
+              <Icon name="stadium" size={28} color="#007400" />
+            </View>
+          </Marker>
           {location && (
             <Polyline
               coordinates={[location, stadiumLocation]}
-              strokeColor="green"
+              strokeColor="#1E90FF"
               strokeWidth={2}
             />
           )}
@@ -112,7 +100,7 @@ const StadiumLocation = ({ navigation }) => {
       <TouchableOpacity style={styles.button} onPress={openInGoogleMaps}>
         <Text style={styles.buttonText}>Abrir no Google Maps</Text>
       </TouchableOpacity>
-      {errorMsg && <Text>{errorMsg}</Text>}
+      {errorMsg && <Text style={styles.TextBaseStyle}>{errorMsg}</Text>}
     </View>
   );
 };
@@ -130,7 +118,6 @@ const styles = StyleSheet.create({
   infoContainerBottom: {
     paddingHorizontal: 30,
     paddingTop: 10,
-
     backgroundColor: "#f5f5f5",
     borderTopWidth: 1,
     borderTopColor: "#ddd",
@@ -167,6 +154,17 @@ const styles = StyleSheet.create({
     fontSize: 16,
     fontWeight: "bold",
   },
+  customMarker: {
+    backgroundColor: "#000080",
+    width: 20,  
+    height: 20, 
+    borderRadius: 10, 
+  },
+  TextBaseStyle:{
+    color: "red",
+    textAlign: "center",
+    fontSize: 16,
+  }
 });
 
 export default StadiumLocation;

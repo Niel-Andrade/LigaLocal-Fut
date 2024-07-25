@@ -1,5 +1,5 @@
 import React from "react";
-import { View, StyleSheet } from "react-native";
+import { View, Text, StyleSheet } from "react-native";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import Classification from "../pages/Classification";
 import Teams from "../pages/Teams";
@@ -7,36 +7,36 @@ import Statistics from "../pages/Statistics";
 import BroadcastChannels from "../pages/BroadcastChannels";
 import Home from "../pages/Home";
 import FontAwesome6 from "@expo/vector-icons/FontAwesome6";
-import { MaterialIcons } from '@expo/vector-icons';
+import { MaterialIcons } from "@expo/vector-icons";
 
 const Tab = createBottomTabNavigator();
 
 const TabRoutes = () => {
   return (
     <Tab.Navigator
+      initialRouteName="Início"
       screenOptions={({ route }) => ({
         tabBarStyle: {
-          backgroundColor: "#007400", // Fundo da barra de navegação
-          borderTopWidth: 0,
-          height: 65, // Altura da barra de navegação
+          backgroundColor: "#007400",
+          height: 65,
         },
         tabBarIcon: ({ focused, color, size }) => {
           let IconComponent;
           let iconName;
 
-          if (route.name === "Classification") {
-            IconComponent = FontAwesome6;
-            iconName = "ranking-star";
-          } else if (route.name === "Teams") {
-            IconComponent = FontAwesome6;
-            iconName = "people-group";
-          } else if (route.name === "Statistics") {
-            IconComponent = FontAwesome6;
-            iconName = "chart-column";
-          } else if (route.name === "Home") {
+          if (route.name === "Início") {
             IconComponent = FontAwesome6;
             iconName = "house";
-          } else if (route.name === "BroadcastChannels") {
+          } else if (route.name === "Equipes") {
+            IconComponent = FontAwesome6;
+            iconName = "people-group";
+          } else if (route.name === "Estatísticas") {
+            IconComponent = FontAwesome6;
+            iconName = "chart-column";
+          } else if (route.name === "Classificação") {
+            IconComponent = FontAwesome6;
+            iconName = "ranking-star";
+          } else if (route.name === "Canais") {
             IconComponent = MaterialIcons;
             iconName = "live-tv";
           }
@@ -47,36 +47,29 @@ const TabRoutes = () => {
             </View>
           );
         },
-        tabBarActiveTintColor: "green", // Cor do ícone ativo
-        tabBarInactiveTintColor: "white", // Cor do ícone inativo
-        tabBarShowLabel: false, // Esconde os rótulos
+        tabBarLabel: ({ focused }) => {
+          return (
+            <Text
+              style={[
+                styles.tabLabel,
+                { fontWeight: "bold", color: focused ? "#000" : "#FFFFFF" },
+              ]}
+            >
+              {route.name}
+            </Text>
+          );
+        },
+        tabBarActiveTintColor: "#000",
+        tabBarInactiveTintColor: "#FFFFFF",
+        tabBarShowLabel: true,
+        headerShown: false,
       })}
     >
-      <Tab.Screen
-        name="Classification"
-        component={Classification}
-        options={{
-          headerShown: false,
-        }}
-      />
-      <Tab.Screen name="Teams" component={Teams} options={{ headerShown: false }} />
-      <Tab.Screen
-        name="Home"
-        component={Home}
-        options={{
-          headerShown: false,
-        }}
-      />
-      <Tab.Screen
-        name="Statistics"
-        component={Statistics}
-        options={{ headerShown: false }}
-      />
-      <Tab.Screen
-        name="BroadcastChannels"
-        component={BroadcastChannels}
-        options={{ headerShown: false }}
-      />
+      <Tab.Screen name="Classificação" component={Classification} />
+      <Tab.Screen name="Equipes" component={Teams} />
+      <Tab.Screen name="Início" component={Home} />
+      <Tab.Screen name="Estatísticas" component={Statistics} />
+      <Tab.Screen name="Canais" component={BroadcastChannels} />
     </Tab.Navigator>
   );
 };
@@ -88,9 +81,8 @@ const styles = StyleSheet.create({
     borderTopRightRadius: 25,
     borderBottomLeftRadius: 50,
     borderBottomRightRadius: 50,
-
-    width: 70, // Largura do fundo do ícone ativo
-    height: 65, // Altura do fundo do ícone ativo
+    width: 70,
+    height: 65,
     justifyContent: "center",
     alignItems: "center",
     marginBottom: 25,
@@ -98,6 +90,12 @@ const styles = StyleSheet.create({
   inactiveTab: {
     justifyContent: "center",
     alignItems: "center",
+  },
+  tabLabel: {
+    fontSize: 10,
+    margin: 5,
+    marginTop: 0,
+    textAlign: "center",
   },
 });
 

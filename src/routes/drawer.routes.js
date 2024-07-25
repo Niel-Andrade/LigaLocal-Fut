@@ -8,13 +8,13 @@ const Drawer = createDrawerNavigator();
 
 const DrawerRoutes = () => {
   return (
-    <Drawer.Navigator
-      screenOptions={{ headerShown: false }} // Oculta o cabeçalho padrão
-    >
+    <Drawer.Navigator screenOptions={{ headerShown: false }}>
       <Drawer.Screen name="Inicio" component={TabRoutes} />
       <Drawer.Screen name="Perfil" component={Profile} />
-      <Drawer.Screen name="Localização do Estádio" component={StadiumLocation}/>
-      {/* Adicione outras telas aqui */}
+      <Drawer.Screen
+        name="Localização do Estádio"
+        component={StadiumLocation}
+      />
     </Drawer.Navigator>
   );
 };

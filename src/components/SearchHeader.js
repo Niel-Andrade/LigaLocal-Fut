@@ -1,9 +1,16 @@
-import React from 'react';
-import { View, TextInput, StyleSheet, TouchableOpacity, Image, Text } from 'react-native';
-import { useNavigation } from '@react-navigation/native';
+import React from "react";
+import {
+  View,
+  TextInput,
+  StyleSheet,
+  TouchableOpacity,
+  Image,
+  Text,
+} from "react-native";
+import { useNavigation } from "@react-navigation/native";
 
 const SearchHeader = ({ onSearch }) => {
-  const [query, setQuery] = React.useState('');
+  const [query, setQuery] = React.useState("");
   const navigation = useNavigation();
 
   const handleSearch = () => {
@@ -12,7 +19,10 @@ const SearchHeader = ({ onSearch }) => {
 
   return (
     <View style={styles.headerContainer}>
-      <TouchableOpacity onPress={() => navigation.goBack()} style={styles.button}>
+      <TouchableOpacity
+        onPress={() => navigation.goBack()}
+        style={styles.button}
+      >
         <Image
           source={require("../../assets/back-icon.png")}
           style={styles.icon}
@@ -20,13 +30,13 @@ const SearchHeader = ({ onSearch }) => {
       </TouchableOpacity>
       <TextInput
         style={styles.input}
-        placeholder="Times..."
+        placeholder="Equipes..."
         value={query}
         onChangeText={setQuery}
-        placeholderTextColor={"#FFF"}
+        placeholderTextColor={"#bbb8b4"}
       />
       <TouchableOpacity onPress={handleSearch} style={styles.searchButton}>
-        <Text style={styles.searchButtonText}>Search</Text>
+        <Text style={styles.searchButtonText}>Buscar</Text>
       </TouchableOpacity>
     </View>
   );
@@ -34,12 +44,12 @@ const SearchHeader = ({ onSearch }) => {
 
 const styles = StyleSheet.create({
   headerContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
+    flexDirection: "row",
+    alignItems: "center",
     padding: 15,
-    backgroundColor: '#007400',
-    borderBottomRightRadius:50,
-    borderBottomLeftRadius:50,
+    backgroundColor: "#007400",
+    borderBottomRightRadius: 50,
+    borderBottomLeftRadius: 50,
   },
   button: {
     padding: 10,
@@ -52,7 +62,7 @@ const styles = StyleSheet.create({
   input: {
     flex: 1,
     height: 40,
-    borderColor: '#FFF',
+    borderColor: "#FFF",
     borderWidth: 1,
     borderRadius: 5,
     paddingHorizontal: 10,
@@ -65,11 +75,12 @@ const styles = StyleSheet.create({
     borderRadius: 5,
   },
   searchButtonText: {
-    color: '#FFF',
+    color: "#FFF",
     fontSize: 16,
-    backgroundColor: '#1ebe23',
-    padding:5,
-    borderRadius: 6,
+    backgroundColor: "#1ebe23",
+    padding: 5,
+    borderRadius: 10,
+    paddingHorizontal: 10,
   },
 });
 

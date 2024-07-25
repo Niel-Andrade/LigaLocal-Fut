@@ -1,6 +1,6 @@
-import React from 'react';
-import { View, Text, TouchableOpacity, Image, StyleSheet } from 'react-native';
-import { useNavigation } from '@react-navigation/native';
+import React from "react";
+import { TouchableOpacity, Image, StyleSheet } from "react-native";
+import { useNavigation } from "@react-navigation/native";
 
 const CustomBackButton = () => {
   const navigation = useNavigation();
@@ -8,7 +8,7 @@ const CustomBackButton = () => {
   return (
     <TouchableOpacity onPress={() => navigation.goBack()} style={styles.button}>
       <Image
-        source={require("../../assets/back-icon.png")} // Adicione o ícone de voltar
+        source={require("../../assets/back-icon.png")}
         style={styles.icon}
       />
     </TouchableOpacity>
